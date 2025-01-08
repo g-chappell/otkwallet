@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import type { NextPage } from 'next';
 import { useWallet, CardanoWallet } from '@meshsdk/react';

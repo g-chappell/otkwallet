@@ -1,12 +1,12 @@
-import { NextConfig } from 'next';
 import { Configuration } from 'webpack';
 
-const nextConfig: NextConfig = {
+const nextConfig = {
     reactStrictMode: true,
-    webpack: function (config: Configuration, options) {
+    webpack: (config: Configuration) => {
         config.experiments = {
             asyncWebAssembly: true,
             layers: true,
+            topLevelAwait: true,
         };
         return config;
     },
