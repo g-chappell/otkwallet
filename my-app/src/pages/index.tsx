@@ -1,21 +1,25 @@
-import { useState } from "react";
-import type { NextPage } from "next";
-import { useWallet } from '@meshsdk/react';
-import { CardanoWallet } from '@meshsdk/react';
+import { useState } from 'react';
+import type { NextPage } from 'next';
+import { useWallet, CardanoWallet } from '@meshsdk/react';
 
 const Home: NextPage = () => {
     const { connected, wallet } = useWallet();
-    const [assets, setAssets] = useState<null | any>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [assets, setAssets] = useState<any | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    async function getAssets() {
+    const getAssets = async () => {
         if (wallet) {
             setLoading(true);
-            const _assets = await wallet.getAssets();
-            setAssets(_assets);
-            setLoading(false);
+            try {
+                const _assets = await wallet.getAssets();
+                setAssets(_assets);
+            } catch (error) {
+                console.error('Error fetching assets:', error);
+            } finally {
+                setLoading(false);
+            }
         }
-    }
+    };
 
     return (
         <div>
@@ -33,11 +37,11 @@ const Home: NextPage = () => {
                     ) : (
                         <button
                             type="button"
-                            onClick={() => getAssets()}
+                            onClick={getAssets}
                             disabled={loading}
                             style={{
-                                margin: "8px",
-                                backgroundColor: loading ? "orange" : "grey",
+                                margin: '8px',
+                                backgroundColor: loading ? 'orange' : 'grey',
                             }}
                         >
                             Get Wallet Assets
